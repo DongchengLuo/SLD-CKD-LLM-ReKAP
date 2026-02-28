@@ -74,4 +74,4 @@ If you use this framework in your research, please cite:
 
 ## **📄 License**
 
-This project is licensed under the [MIT License](https://www.google.com/search?q=LICENSE).
+This project is licensed under the Apache License 2.0. See the LICENSE file for details.
