@@ -76,28 +76,16 @@ Once started, access the UI at http://localhost:8501. The WebUI includes four co
 
 ## **📂 Modular Architecture**
 
-
-
 For researchers performing ablation studies or deep customization, the following core modules are available:
-
-
 
 ### **Core Engines (/modules)**
 
-
-
 | Module | Script | Description |
-
-| :---- | :---- | :---- |
-
-| **KG Construction** | kg\_construction/ | Includes PDF extraction (KG\_extraction.py) and entity summarization logic. |
-
-| **Smart Retrieval** | retrieval/ | Semantic filtering of literature, entities, and relationships based on patient profiles. |
-
-| **Patient Clustering** | clustering/ | (cluster.py) GPU-accelerated stratification using cuML to identify subgroup phenotypes. |
-
-| **Reasoning & Score** | prediction\_work/ | Multi-source evidence synthesis (e.g., report1+2 mode) for clinical conclusions. |
-
+| :--- | :--- | :--- |
+| **KG Construction** | `kg_construction/` | Includes PDF extraction (`KG_extraction.py`) and entity summarization logic. |
+| **Smart Retrieval** | `retrieval/` | Semantic filtering of literature, entities, and relationships based on patient profiles. |
+| **Patient Clustering** | `clustering/` | (`cluster.py`) GPU-accelerated stratification using cuML to identify subgroup phenotypes. |
+| **Reasoning & Score** | `prediction_work/` | Multi-source evidence synthesis (e.g., report1+2 mode) for clinical conclusions. |
 
 
 ### **Interpretable Analysis (/interpretable analysis)**
