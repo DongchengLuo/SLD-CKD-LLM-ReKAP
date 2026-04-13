@@ -1,71 +1,153 @@
-🧬 LLM-ReKAP: A Knowledge Graph-Augmented Causal-Retriever LLM Framework
-LLM-ReKAP (Large Language Model-Retriever Knowledge Graph-Augmented Predictive framework) is an end-to-end, training-free neuro-symbolic research framework. It is designed to synthesize unstructured biomedical literature into an evidence-weighted Knowledge Graph (KG) and perform personalized clinical risk assessment—specifically predicting incident Chronic Kidney Disease (CKD) in patients with Steatotic Liver Disease (SLD).
-By replacing traditional flat embedding-based Retrieval-Augmented Generation (RAG) with an LLM-as-causal-retriever, this framework grounds predictive LLM ensembles in multi-dimensional domain knowledge, bridging the gap between general epidemiological scores (like CKD-PC) and complex, patient-specific cross-organ crosstalk.
-🌟 Key Innovations & Features
-LLM-as-Causal-Retriever: Departs from standard "naive" vector similarity RAG. It performs deep semantic matching across entities, relationships, and multidimensional literature metadata to extract and pre-synthesize noise-reduced, clinical conflict-reconciled Knowledge Summaries.
-Dual-LLM Engine: Leverages Google Gemini 2.5 Pro for high-fidelity KG extraction/synthesis, and utilizes high-performance open-source foundation models (e.g., Qwen, Kimi, DeepSeek, GPT) guided by Chain-of-Thought (CoT) protocols for risk prediction.
-Training-Free In-Context Learning: Integrates general clinical benchmarks (e.g., CKD-PC) with domain-specific KG insights without gradient-based retraining or parameter optimization, inherently preventing overfitting.
-Interactive End-to-End Clinical Interface: A centralized Streamlit-based WebUI that automates the workflow from raw PDF parsing to visually interpretable risk stratification.
-4D Explainability (XAI): Demystifies LLM reasoning through a four-dimensional interpretability strategy: Chain-of-Thought (CoT) logical tracing, SHapley Additive exPlanations (SHAP), token-level Integrated Gradients (IG), and Mechanistic Surrogate Cox Modeling.
-GPU-Accelerated High-Dimensional Processing: Utilizes NVIDIA cuML for rapid K-Means phenotypic clustering to process large-scale cohorts efficiently.
-🚀 Quick Start
-1. Environment Setup
-Python 3.12+ is recommended. For GPU-accelerated features (like patient clustering), please ensure a RAPIDS environment is installed alongside vLLM.
-# Clone the repository
-git clone [https://github.com/your-username/LLM-ReKAP.git](https://github.com/your-username/LLM-ReKAP.git)
-cd LLM-ReKAP
-
-# Install dependencies
-pip install -r requirements.txt
+# **🧬 LLM-ReKAP: Knowledge Graph-Augmented Causal-Retriever LLM Framework for Incident CKD Prediction in Steatotic Liver Disease**
 
 
-2. Deploy the WebUI (Recommended)
-The easiest way to operate the framework is via the integrated clinical reasoning dashboard.
+
+**LLM-ReKAP (LLM-Retriever Knowledge Graph-Augmented Predictive Framework)** is an end-to-end research framework designed to extract knowledge from 20 years of biomedical literature, construct evidence-weighted Knowledge Graphs (KGs), and provide clinical decision support for patients with Steatotic Liver Disease (SLD)—including NAFLD, MAFLD, or MASLD—specifically for Chronic Kidney Disease (CKD) risk prediction.prediction.
+
+
+
+## **🌟 Key Features**
+
+
+
+* **Neuro-Symbolic KG-RAG Architecture**: Replaces embedding-based retrieval with LLM-as-causal-retriever, grounding predictions in a domain-specific, evidence-weighted KG distilled from 412 independent studies.  
+
+* **Multi-LLM Ensemble Engine**: Supports four foundation models (Qwen3.5-397b-A17b, Kimi-K2, DeepSeek-V3.1, GPT-OSS-120b) for Chain-of-Thought (CoT) reasoning and risk probability computation.  
+
+* **Training-Free In-Context Learning**: Avoids gradient-based overfitting by anchoring risk stratification to prior domain knowledge, achieving zero-shot generalization across independent cohorts (N=133,086).  
+
+* **Four-Dimensional Interpretability**:  Built-in CoT reasoning trace analysis, SHAP, Integrated Gradients (IG), and Surrogate Cox Modeling to ensure transparency and biological plausibility.
+
+* **Superior Predictive Performance**: Achieves C-index of 0.833 (ΔC=0.037) in UK Biobank and 0.878 (ΔC=0.015) in Nanfang cohort, outperforming naive RAG by >2-fold incremental gain.
+
+
+
+## **🚀 Quick Start**
+
+
+
+### **1\. Environment Setup**
+
+
+
+Python 3.9+ is recommended. For GPU-accelerated features (cluster.py), please ensure a [RAPIDS](https://rapids.ai/) environment is installed.
+
+
+
+\# Clone the repository  
+
+git clone \[https://github.com/your-username/BioKG-Risk.git\](https://github.com/your-username/BioKG-Risk.git)  
+
+cd BioKG-Risk
+
+
+
+\# Install dependencies  
+
+pip install \-r requirements.txt
+
+
+
+### **2\. Deploy WebUI (Recommended)**
+
+
+
+This is the easiest way to use the framework. Launch the integrated management dashboard:
+
+
+
 streamlit run webui.py
 
 
-Once started, access the UI at http://localhost:8501. The WebUI aligns with the four core operational modules:
-Knowledge Graph Construction: Upload raw medical PDFs. The system utilizes customizable prompts to extract entities and map canonical names (standardization).
-Knowledge Synthesis & Evaluation: The system summarizes standardized entities into coherent clinical narratives and scores biomedical relationships using OCEBM/GRADE evidence quality principles, outputting a unified JSON KG.
-Knowledge Graph Retrieval: Input patient clinical profiles (JSON). The system ranks and retrieves tailored evidence directly from the literature and KG base.
-Comprehensive Reasoning: Integrates patient phenotypes, consensus clinical rules, and the retrieved KG evidence. Outputs structured CoT reasoning, projected 3–15 year risk probabilities, and seamlessly integrates with traditional scores (e.g., CKD-PC) for definitive High/Low risk stratification.
-📂 Modular Architecture
-For researchers conducting ablation studies, cross-cohort validations, or custom developments, the framework is heavily decoupled:
-Core Engines (/modules)
-Module
-Script
-Description
-KG Construction
-kg_construction/
-Multimodal PDF extraction (KG_extraction.py), entity normalization, and generative narrative aggregation.
-Smart Retrieval
-retrieval/
-Causal semantic matching, composite score ranking, and participant-level evidence filtering.
-Patient Clustering
-clustering/
-(cluster.py) GPU-accelerated cohort stratification via cuML to identify shared phenotypic representations.
-Reasoning & Ensembles
-prediction_work/
-CoT inference engine combining KG Summaries (Report 1) and Consensus Clinical Risk (Report 2) with the foundational clinical baseline.
 
-Interpretability Pipeline (/interpretable_analysis)
-CoT_trace.py: Extracts and structures unstructured LLM rationales into functional clusters (e.g., Metabolic-Renal axis).
-SHAP_analysis.py & IG_tokens.py: Computes global feature importance and granular, token-level feature attributions to trace the exact drivers of the LLM's prediction.
-Surrogate_Cox.py: Maps non-linear LLM reasoning nodes onto conventional statistical Hazard Ratios for mechanistic corroboration.
-🛠️ Configuration
+Once started, access the UI at http://localhost:8501. The WebUI includes four core tabs:
+
+
+
+1. **PDF Entity Extraction**: Upload medical PDFs to generate structured JSON knowledge.  
+
+2. **Entity Normalization**: Cleanse and merge synonymous entities (e.g., matching "CKD" to "Chronic Kidney Disease").  
+
+3. **Entity Summarization**: Generate cross-literature summaries for specific biomarkers or risk factors.  
+
+4. **Relationship Scoring**: Quantify evidence strength based on the **GRADE** principles.
+
+
+
+## **📂 Modular Architecture**
+
+
+
+For researchers performing ablation studies or deep customization, the following core modules are available:
+
+
+
+### **Core Engines (/modules)**
+
+
+
+| Module | Script | Description |
+
+| :---- | :---- | :---- |
+
+| **KG Construction** | kg\_construction/ | Includes PDF extraction (KG\_extraction.py) and entity summarization logic. |
+
+| **Smart Retrieval** | retrieval/ | Semantic filtering of literature, entities, and relationships based on patient profiles. |
+
+| **Patient Clustering** | clustering/ | (cluster.py) GPU-accelerated stratification using cuML to identify subgroup phenotypes. |
+
+| **Reasoning & Score** | prediction\_work/ | Multi-source evidence synthesis (e.g., report1+2 mode) for clinical conclusions. |
+
+
+
+### **Interpretable Analysis (/interpretable analysis)**
+
+
+
+* **SHAP.py & IG.py**: Analyze the contribution of patient metrics to risk scores and generate attribution heatmaps suitable for academic publication.
+
+
+
+## **🛠️ Configuration**
+
+
+
 Update the configuration parameters in the WebUI sidebar or script headers before running:
-API Keys & Model Endpoints: Enter your Gemini API keys for KG construction, and configure your vLLM local endpoints (or API keys) for your chosen prediction foundation models (e.g., Qwen, DeepSeek) in the WebUI sidebar.
-Paths: If using independent scripts, modify the PATH_ variables at the top of each script to point to your local longitudinal datasets (e.g., UKBB, Nanfang formats) and evidence corpora.
-📝 Citation
-If you use the LLM-ReKAP framework or our pre-synthesized SLD-CKD knowledge graphs in your research, please cite our paper:
-@article{LLMReKAP2026,
-  title={LLM-ReKAP: A Knowledge Graph-Augmented Causal-Retriever LLM Framework for Incident CKD Prediction in Steatotic Liver Disease},
-  author={Your Name and Collaborators},
-  journal={GitHub Repository},
-  year={2026},
-  url={[https://github.com/your-username/LLM-ReKAP](https://github.com/your-username/LLM-ReKAP)}
+
+
+
+* **API Keys**: Enter your Gemini or OpenAI/NVIDIA API keys in the WebUI sidebar.  
+
+* **Paths**: If using independent scripts, modify the PATH\_ variables at the top of each script to point to your local datasets.
+
+
+
+## **📝 Citation**
+
+
+
+If you use this framework in your research, please cite:
+
+
+
+@article{BioKGRisk2026,  
+
+  title={A Modular Framework for Biomedical Knowledge Graph Construction and Clinical Risk Assessment in Metabolic Diseases},  
+
+  author={Your Name and Collaborators},  
+
+  journal={GitHub Repository},  
+
+  year={2026},  
+
+  url={\[https://github.com/your-username/BioKG-Risk\](https://github.com/your-username/BioKG-Risk)}  
+
 }
 
 
-📄 License
+
+## **📄 License**
+
+
+
 This project is licensed under the Apache License 2.0. See the LICENSE file for details.
