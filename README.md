@@ -118,11 +118,11 @@ If you use this framework in your research, please cite:
 
 
 
-@article{BioKGRisk2026,  
+@article{LLM-ReKAP,  
 
   title={A Modular Framework for Biomedical Knowledge Graph Construction and Clinical Risk Assessment in Metabolic Diseases},  
 
-  author={Your Name and Collaborators},  
+  author={Dongcheng Luo},  
 
   journal={GitHub Repository},  
 
